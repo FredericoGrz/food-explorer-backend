@@ -10,10 +10,10 @@ function ensureAuthenticated(req, res, next) {
   const [, token] = authHeader.split(" ");
 
   try {
-    const { sub: user_id } = verify(token, authConfig.jwt.secret);
-
+    const { userId, isAdmin } = verify(token, authConfig.jwt.secret);
     req.user = {
-      id: Number(user_id),
+      id: Number(userId),
+      isAdmin,
     };
 
     return next();

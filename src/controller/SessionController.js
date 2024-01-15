@@ -23,10 +23,21 @@ class SessionController {
 
       const { secret, expiresIn } = authConfig.jwt;
 
-      const token = sign({}, secret, {
-        subject: String(user.id),
-        expiresIn,
-      });
+      const token = sign(
+        {
+          userId: user.id,
+          isAdmin: user.isAdmin, // Supondo que 'isAdmin' seja uma propriedade booleana do objeto 'user'
+        },
+        secret,
+        {
+          expiresIn,
+        }
+      );
+
+      // const token = sign({}, secret, {
+      //   subject: String(user.id),
+      //   expiresIn,
+      // });
 
       delete user.password;
       delete user.created_at;
