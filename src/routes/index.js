@@ -13,6 +13,6 @@ routes.use("/users", userRoutes);
 routes.use("/sessions", sessionRoutes);
 routes.use("/categories", ensureAuthenticated, categoryRoutes);
 routes.use("/pratos", ensureAuthenticated, pratosRoutes);
-routes.use("/upload", ensureAuthenticated, imageUploadRoute);
+routes.use("/upload", imageUploadRoute);
 
 module.exports = routes;
