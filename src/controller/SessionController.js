@@ -7,10 +7,12 @@ const { sign } = require("jsonwebtoken");
 class SessionController {
   async create(req, res) {
     try {
-      const { email, password } = req.body;
+      let { email, password } = req.body;
 
       if (!email || !password)
         throw new AppError("Informe Email e Senha para efetuar o login");
+
+      email = email.toLowerCase();
 
       const user = await knex("users").where({ email }).first();
 

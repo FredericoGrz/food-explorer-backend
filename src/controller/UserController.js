@@ -5,12 +5,16 @@ const AppError = require("../Utils/AppError");
 class UserController {
   async create(req, res) {
     try {
-      const { name, email, password, isAdmin = false } = req.body;
+      let { name, email, password, isAdmin = false } = req.body;
       const allRequiredDataAvailable = name && email && password;
-      const emailAlreadyExists = await knex("users").where({ email }).first();
 
       if (!allRequiredDataAvailable)
         throw new AppError("Por favor preencha todos os campos necessários!");
+
+      email = email.toLowerCase();
+
+      const emailAlreadyExists = await knex("users").where({ email }).first();
+
       if (emailAlreadyExists) throw new AppError("Email já está em uso!");
 
       const hashedPassword = await hash(password, 10);
