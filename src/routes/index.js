@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const express = require("express");
+const uploadConfig = require("../configs/upload");
 const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 
 const userRoutes = require("./users.router");
@@ -14,5 +16,10 @@ routes.use("/sessions", sessionRoutes);
 routes.use("/categories", ensureAuthenticated, categoryRoutes);
 routes.use("/pratos", ensureAuthenticated, pratosRoutes);
 routes.use("/upload", imageUploadRoute);
+routes.use(
+  "/files",
+  ensureAuthenticated,
+  express.static(uploadConfig.UPLOADS_FOLDER)
+);
 
 module.exports = routes;
