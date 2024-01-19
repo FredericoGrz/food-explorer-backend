@@ -10,5 +10,6 @@ pratoRoutes.get("/:id", pratoController.show);
 
 pratoRoutes.post("/", ensureIsAdmin, pratoController.create);
 pratoRoutes.put("/:id", ensureIsAdmin, pratoController.update);
+pratoRoutes.delete("/:id", ensureIsAdmin, pratoController.delete);
 
 module.exports = pratoRoutes;

@@ -99,6 +99,23 @@ class PratoController {
       throw new AppError(error.message);
     }
   }
+
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+      const diskStorage = new DiskStorage();
+
+      const prato = await knex("pratos").where({ id }).first();
+      await diskStorage.deleteFile(prato.imagem);
+
+      await knex("pratos").delete().where({ id });
+
+      res.status(200).json();
+    } catch (error) {
+      console.log(error);
+      throw new AppError("Nao foi possível excluir o prato");
+    }
+  }
 }
 
 module.exports = PratoController;
