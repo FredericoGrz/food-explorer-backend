@@ -1,5 +1,6 @@
 const knex = require("../database/knex");
 const AppError = require("../Utils/AppError");
+const DiskStorage = require("../providers/DiskStorage");
 
 class PratoController {
   async index(req, res) {
@@ -38,10 +39,13 @@ class PratoController {
       let { name, category_id, ingredientes, preco, description, imagem } =
         req.body;
       ingredientes = ingredientes.join(";");
+      const diskStorage = new DiskStorage();
       const allDataRequiredAvailable = name && category_id && preco;
 
       if (!allDataRequiredAvailable)
         throw new AppError("Por favor preencha todos os campos necessários!");
+
+      await diskStorage.saveFile(imagem);
 
       await knex("pratos").insert({
         name,
@@ -63,10 +67,16 @@ class PratoController {
       const { id } = req.params;
       let { name, category_id, ingredientes, preco, description, imagem } =
         req.body;
+      const diskStorage = new DiskStorage();
 
       let prato = await knex("pratos").where({ id }).first();
 
       if (!prato) throw new AppError("Prato não encontrado");
+
+      if (imagem !== undefined && imagem !== prato.imagem) {
+        await diskStorage.deleteFile(prato.imagem);
+        await diskStorage.saveFile(imagem);
+      }
 
       prato.name = name === undefined ? prato.name : name;
       prato.preco = preco === undefined ? prato.preco : preco;
