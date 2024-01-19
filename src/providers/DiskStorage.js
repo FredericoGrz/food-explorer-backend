@@ -17,8 +17,9 @@ class DiskStorage {
 
     try {
       await fs.promises.stat(filePath);
-    } catch {
-      return;
+      await fs.promises.unlink(filePath);
+    } catch (error) {
+      console.error(`Erro ao excluir o arquivo ${filePath}:`, error);
     }
   }
 }
