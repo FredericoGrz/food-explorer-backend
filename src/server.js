@@ -3,6 +3,7 @@ require("dotenv/config");
 const express = require("express");
 const routes = require("./routes");
 const cors = require("cors");
+const tmpEraser = require("./Utils/tmpEraser");
 const errorHandler = require("./middlewares/errorHandler");
 const PORT = process.env.SERVER_PORT;
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(routes);
+tmpEraser();
 
 // Middleware para controle de erros na aplicação
 app.use(errorHandler);
