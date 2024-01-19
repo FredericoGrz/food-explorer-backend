@@ -2,5 +2,5 @@ node_modules
 src/database/database.db
 .env
 tmp/*
-!tmp/uploads
+!tmp/uploads/.gitkeep
 !tmp/.gitkeep
