@@ -4,7 +4,23 @@ const AppError = require("../Utils/AppError");
 class CategoryController {
   async index(req, res) {
     try {
+      const includePratos = req.query.includePratos === "true";
+
       let categories = await knex("categories").orderBy("created_at", "desc");
+
+      if (includePratos) {
+        const pratos = await knex("pratos").orderBy("created_at", "desc");
+
+        for (const category of categories) {
+          category.pratos = pratos.filter(
+            (prato) => prato.category_id === category.id
+          );
+
+          for (const prato of category.pratos) {
+            prato.ingredientes = prato.ingredientes.split(";");
+          }
+        }
+      }
 
       res.status(200).json(categories);
     } catch (error) {
