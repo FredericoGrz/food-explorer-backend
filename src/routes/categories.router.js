@@ -10,5 +10,6 @@ categoryRoutes.get("/:id", categoryController.show);
 
 categoryRoutes.post("/", ensureIsAdmin, categoryController.create);
 categoryRoutes.put("/:id", ensureIsAdmin, categoryController.update);
+categoryRoutes.delete("/:id", ensureIsAdmin, categoryController.delete);
 
 module.exports = categoryRoutes;

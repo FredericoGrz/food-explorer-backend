@@ -81,6 +81,19 @@ class CategoryController {
       throw new AppError(error.message);
     }
   }
+
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+
+      await knex("categories").delete().where({ id });
+
+      res.status(200).json();
+    } catch (error) {
+      console.log(error);
+      throw new AppError("Nao foi possível excluir a categoria");
+    }
+  }
 }
 
 module.exports = CategoryController;
