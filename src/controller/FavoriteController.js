@@ -7,10 +7,19 @@ class FavoriteController {
     try {
       const { id: user_id } = req.user;
       const prato_id = req.query.prato_id;
+      let response = null;
+      if (prato_id) {
+        response = await knex("favorites").where({ user_id, prato_id }).first();
+      } else {
+        response = await knex("favorites").where({ user_id });
 
-      const response = await knex("favorites")
-        .where({ user_id, prato_id })
-        .first();
+        for (const favorito of response) {
+          favorito.prato = await knex("pratos")
+            .where({ id: favorito.prato_id })
+            .first();
+        }
+      }
+
       res.status(200).json(response);
     } catch (error) {
       throw new AppError(error.message);
