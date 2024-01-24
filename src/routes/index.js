@@ -8,6 +8,7 @@ const sessionRoutes = require("./sessions.router");
 const categoryRoutes = require("./categories.router");
 const pratosRoutes = require("./pratos.router");
 const imageUploadRoute = require("./imageUpload.router");
+const favoriteRoutes = require("./favorites.router");
 
 const routes = Router();
 
@@ -16,6 +17,7 @@ routes.use("/sessions", sessionRoutes);
 routes.use("/categories", ensureAuthenticated, categoryRoutes);
 routes.use("/pratos", ensureAuthenticated, pratosRoutes);
 routes.use("/upload", imageUploadRoute);
+routes.use("/favorites", ensureAuthenticated, favoriteRoutes);
 routes.use(
   "/files",
   ensureAuthenticated,
