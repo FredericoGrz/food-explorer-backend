@@ -11,6 +11,7 @@ const imageUploadRoute = require("./imageUpload.router");
 const favoriteRoutes = require("./favorites.router");
 const pedidoRoutes = require("./pedidos.router");
 const pedidoPratosRoutes = require("./pedidopratos.router");
+const pagamentoRoutes = require("./pagamentos.router");
 
 const routes = Router();
 
@@ -22,6 +23,7 @@ routes.use("/upload", imageUploadRoute);
 routes.use("/favorites", ensureAuthenticated, favoriteRoutes);
 routes.use("/pedidos", ensureAuthenticated, pedidoRoutes);
 routes.use("/pedidopratos", ensureAuthenticated, pedidoPratosRoutes);
+routes.use("/pagamentos", ensureAuthenticated, pagamentoRoutes);
 routes.use(
   "/files",
   ensureAuthenticated,
