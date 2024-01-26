@@ -9,6 +9,8 @@ const categoryRoutes = require("./categories.router");
 const pratosRoutes = require("./pratos.router");
 const imageUploadRoute = require("./imageUpload.router");
 const favoriteRoutes = require("./favorites.router");
+const pedidoRoutes = require("./pedidos.router");
+const pedidoPratosRoutes = require("./pedidopratos.router");
 
 const routes = Router();
 
@@ -18,6 +20,8 @@ routes.use("/categories", ensureAuthenticated, categoryRoutes);
 routes.use("/pratos", ensureAuthenticated, pratosRoutes);
 routes.use("/upload", imageUploadRoute);
 routes.use("/favorites", ensureAuthenticated, favoriteRoutes);
+routes.use("/pedidos", ensureAuthenticated, pedidoRoutes);
+routes.use("/pedidopratos", ensureAuthenticated, pedidoPratosRoutes);
 routes.use(
   "/files",
   ensureAuthenticated,
