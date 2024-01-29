@@ -19,7 +19,24 @@ class PedidoController {
     try {
       const { id } = req.params;
 
-      const pedido = await knex("pedidos").where({ id }).first();
+      let pedido = await knex("pedidos").where({ id }).first();
+
+      const pedidoPratos = await knex("pedidopratos").where({
+        pedido_id: pedido.id,
+      });
+
+      let pratos = [];
+
+      for (const pedidoPrato of pedidoPratos) {
+        let prato = await knex("pratos")
+          .where({ id: pedidoPrato.prato_id })
+          .first();
+
+        prato.quantidade = pedidoPrato.quantidade;
+        pratos.push(prato);
+      }
+
+      pedido.pratos = pratos;
 
       if (pedido) res.status(200).json(pedido);
       else res.status(404).json();
