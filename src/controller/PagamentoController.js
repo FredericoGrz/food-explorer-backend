@@ -65,7 +65,6 @@ class PagamentoController {
   async finalizar(req, res) {
     try {
       const { pedido_id } = req.params;
-      console.log(pedido_id);
 
       await knex("pagamentos")
         .update({ status: "Concluído", updated_at: knex.fn.now() })
