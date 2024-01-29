@@ -23,7 +23,7 @@ routes.use("/upload", imageUploadRoute);
 routes.use("/favorites", ensureAuthenticated, favoriteRoutes);
 routes.use("/pedidos", ensureAuthenticated, pedidoRoutes);
 routes.use("/pedidopratos", ensureAuthenticated, pedidoPratosRoutes);
-routes.use("/pagamentos", ensureAuthenticated, pagamentoRoutes);
+routes.use("/pagamentos", pagamentoRoutes);
 routes.use(
   "/files",
   ensureAuthenticated,
