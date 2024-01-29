@@ -21,9 +21,13 @@ class PagamentoController {
     try {
       const { pedido_id } = req.body;
 
-      const pagamento = await knex("pagamentos").where({ pedido_id }).first();
+      const pagamentos = await knex("pagamentos").where({ pedido_id });
 
-      if (pagamento) await knex("pagamentos").where({ pedido_id }).delete();
+      if (pagamentos) {
+        for (const pagamento of pagamentos) {
+          await knex("pagamentos").where({ id: pagamento.id }).delete();
+        }
+      }
 
       const pratos = await knex("pedidopratos")
         .select(
@@ -32,7 +36,8 @@ class PagamentoController {
           "pratos.id",
           "pratos.preco"
         )
-        .join("pratos", "pedidopratos.prato_id", "=", "pratos.id");
+        .join("pratos", "pedidopratos.prato_id", "=", "pratos.id")
+        .where({ pedido_id });
 
       let total = 0;
       for (const prato of pratos) {
@@ -49,9 +54,28 @@ class PagamentoController {
         })
         .returning("*");
 
-      const qr_code = `http:localhost:3333/pagamentos/${id}`;
+      const qr_code = `http://localhost:3333/pagamentos/finalizar/${pedido_id}`;
 
       res.status(201).json({ pagamento_id: id, total: valor, qr_code });
+    } catch (error) {
+      console.log(error);
+      throw new AppError(error.message);
+    }
+  }
+  async finalizar(req, res) {
+    try {
+      const { pedido_id } = req.params;
+      console.log(pedido_id);
+
+      await knex("pagamentos")
+        .update({ status: "Concluído", updated_at: knex.fn.now() })
+        .where({ pedido_id });
+
+      await knex("pedidos")
+        .update({ status: "Concluído", updated_at: knex.fn.now() })
+        .where({ id: pedido_id });
+
+      res.status(200).json("Pagamento efetuado com sucesso");
     } catch (error) {
       console.log(error);
       throw new AppError(error.message);
