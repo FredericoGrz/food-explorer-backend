@@ -34,6 +34,20 @@ class PedidoPratosController {
       throw new AppError(error.message);
     }
   }
+
+  async delete(req, res) {
+    try {
+      const { pedido_id, prato_id } = req.body;
+
+      if (pedido_id && prato_id) {
+        await knex("pedidopratos").where({ pedido_id, prato_id }).delete();
+      }
+      res.status(200).json();
+    } catch (error) {
+      console.log(error);
+      throw new AppError(error.message);
+    }
+  }
 }
 
 module.exports = PedidoPratosController;
