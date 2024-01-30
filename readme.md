@@ -51,7 +51,7 @@ git clone https://github.com/FredericoGrz/food-explorer-backend.git
 cd food-explorer-backend
 ```
 
-3. cd food-explorer-api
+3. Instale as dependências do projeto
 
 ```bash
 npm install
@@ -65,7 +65,7 @@ npm run migrate
 
 5. Configure as variáveis de ambiente:
 
-Crie um arquivo **.env\_** na raiz do projeto e utilize o arquivo **.env.example** como template.
+Crie um arquivo **.env** na raiz do projeto e utilize o arquivo **.env.example** como template.
 
 6. Para rodar o projeto em modo dev, rode o comando
 
@@ -73,4 +73,4 @@ Crie um arquivo **.env\_** na raiz do projeto e utilize o arquivo **.env.example
 npm run dev
 ```
 
-O servidor estará em execução em http://localhost: na porta definida no arquivo .env.
+O servidor estará em execução em http://localhost:$PORT na porta definida no arquivo .env.
